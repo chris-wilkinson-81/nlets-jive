@@ -1,0 +1,9 @@
+{
+  "00b4fa09-36df-4cd8-944f-ea0d6e8d23a9" : {
+    "username" : "postgres",
+    "password" : "ENCRYPTED:EAAAANpH3l037FX/kbEuGxXnOk9yxfOYcbWXGgsj/Nh5SHWd",
+    "dialect" : "org.hibernate.dialect.PostgreSQLDialect",
+    "driver" : "org.postgresql.Driver",
+    "jdbcURL" : "jdbc:postgresql://localhost:5432/nlets-eae8"
+  }
+}

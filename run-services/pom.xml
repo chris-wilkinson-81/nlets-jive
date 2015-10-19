@@ -1,0 +1,92 @@
+<!--
+  ~ $Revision$
+  ~ $Date$
+  ~
+  ~ Copyright (C) 1999-2012 Jive Software. All rights reserved.
+  ~
+  ~ This software is the proprietary information of Jive Software. Use is subject to license terms.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.nlets.jive</groupId>
+    <artifactId>jive-local-services</artifactId>
+    <packaging>pom</packaging>
+    <version>1</version>
+    <name>Jive Local Services</name>
+
+    <parent>
+        <groupId>com.jivesoftware.maven</groupId>
+        <artifactId>jive-parent-pom</artifactId>
+        <version>8.0.2.0-0</version>
+    </parent>
+
+    <profiles>
+        <profile>
+            <id>search</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <mainClass>com.jivesoftware.service.main.Main</mainClass>
+                            <arguments>
+                                <argument>${basedir}/main-args.properties</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>com.jivesoftware.service.deployable.on-prem-all-in-one-search</groupId>
+                    <artifactId>on-prem-all-in-one-search-main</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>eae</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <mainClass>com.jivesoftware.eae.service.Main</mainClass>
+                            <arguments>
+                                <argument>${basedir}/serviceconfig</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <dependencies>
+                <dependency>
+                    <groupId>eae.core</groupId>
+                    <artifactId>eae-service</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
+</project>

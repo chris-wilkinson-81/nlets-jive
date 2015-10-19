@@ -1,0 +1,333 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>weboverlay</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>web</artifactId>
+    <packaging>war</packaging>
+    <description>
+        Custom Jive WAR. We try to only place files in this project that MUST be overlayed.
+        Usually this means there is no way to make the change as a plugin. Most customizations can be done by plugin
+        these days, and there
+        are many advantages to doing so in terms of packaging, deployment, upgradability and debugging.
+        Overlaying a file ensures that you will have to put forth at least some development effort when you want to
+        upgrade versions
+        of Jive.
+    </description>
+
+    <parent>
+        <groupId>org.nlets.jive</groupId>
+        <artifactId>nlets</artifactId>
+        <version>8.0.2-0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <!--<plugin.dirs>${basedir}/../plugin-directory/target/plugin-directory</plugin.dirs>-->
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- compile all source in src/main/java into target -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <!-- weave aspects -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+            </plugin>
+
+            <!-- create other Jive build artifacts like themes.zip and etc.zip -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>assemble-jive-artifacts</id>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+
+                    <execution>
+                        <id>explode-jive-plugin</id>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+
+                    <!-- The execution below should be used when you place anything in /web/src/main/overlay, which
+                         includes overrides or widget bean.properties files, or any core Javascript files -->
+                    <!-- <execution> -->
+                        <!-- <id>repackage-jive-jar</id> -->
+                        <!-- <goals><goal>run</goal></goals> -->
+                        <!-- <configuration> -->
+                            <!-- <skip>false</skip> -->
+                        <!-- </configuration> -->
+                    <!-- </execution> -->
+                </executions>
+            </plugin>
+
+            <!-- assemble the Jive war file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+
+            <!-- Runs Unit tests, by default any classes that match **/Test*.java, **/*Test.java, or **/*TestCase.java -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <!-- Runs Integration tests, by default any classes that match **/IT*.java, **/*IT.java, or **/*ITCase.java -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.jivesoftware</groupId>
+            <artifactId>jive-war</artifactId>
+            <type>war</type>
+        </dependency>
+
+        <dependency>
+            <groupId>com.jivesoftware</groupId>
+            <artifactId>jive-core</artifactId>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>${servlet.api.artifactId}</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.ant</groupId>
+            <artifactId>ant-nodeps</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>int</id>
+            <build>
+                <plugins>
+                    <!-- Cargo is our main method of running and testing/debugging Jive.  This is the main configuration area. -->
+                    <!-- Here is the config reference:  http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide    -->
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <configuration>
+                            <!-- Feed them this value; Decides if Cargo should wait after the container is started or not -->
+                            <wait>true</wait>
+                            <container>
+                                <containerId>${cargo.tomcat.id}</containerId>
+                                <home>${cargo.tomcat.home}</home>
+                                <timeout>360000</timeout>
+                                <systemProperties>
+                                    <jive.instance.home>${basedir}/../target/jiveHome</jive.instance.home>
+                                    <jive.ws.disabled>true</jive.ws.disabled>
+                                    <jive.devMode>true</jive.devMode>
+                                    <themes.directory>${basedir}/../themes/src/main/themes</themes.directory>
+                                    <pluginDirs>${plugin.dirs}</pluginDirs>
+                                </systemProperties>
+                                <dependencies>
+                                    <!-- Specify the jdbc connector to use -->
+                                    <!--<dependency>-->
+                                        <!--<groupId>mysql</groupId>-->
+                                        <!--<artifactId>mysql-connector-java</artifactId>-->
+                                    <!--</dependency>-->
+                                    <dependency>
+                                        <groupId>postgresql</groupId>
+                                        <artifactId>postgresql</artifactId>
+                                    </dependency>
+                                </dependencies>
+                            </container>
+                            <configfiles>
+                                <configfile>
+                                    <file>${basedir}/src/test/resources/web.xml</file>
+                                    <todir>conf</todir>
+                                </configfile>
+                            </configfiles>
+                            <configuration>
+                                <home>target/${cargo.tomcat.id}</home>
+                                <configfiles>
+                                    <configfile>
+                                        <file>${basedir}/src/test/resources/web.xml</file>
+                                        <todir>conf</todir>
+                                    </configfile>
+                                </configfiles>
+                                <properties>
+                                    <cargo.jvmargs>-Xdebug -Xnoagent
+                                        -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Xms512m -Xmx1024m
+                                        -XX:MaxPermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+                                    </cargo.jvmargs>
+                                    <cargo.servlet.uriencoding>UTF-8</cargo.servlet.uriencoding>
+                                </properties>
+                                <deployables>
+                                    <deployable>
+                                        <location>${project.build.directory}/${project.build.finalName}.war
+                                        </location>
+                                        <pingURL>http://localhost:8080</pingURL>
+                                        <properties>
+                                            <context></context>
+                                        </properties>
+                                    </deployable>
+                                </deployables>
+                            </configuration>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-container</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>stop-container</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+
+            </build>
+        </profile>
+
+        <!-- This profile creates a cargo configuration that runs Tomcat with the exploded war. Running with the
+             exploded war reduces the time that it takes for cargo to startup Tomcat. -->
+        <profile>
+            <id>dev</id>
+            <build>
+                <plugins>
+                    <!-- Cargo is our main method of running and testing/debugging Jive.  This is the main configuration area. -->
+                    <!-- Here is the config reference:  http://cargo.codehaus.org/Maven2+Plugin+Reference+Guide    -->
+                    <plugin>
+                        <groupId>org.codehaus.cargo</groupId>
+                        <artifactId>cargo-maven2-plugin</artifactId>
+                        <configuration>
+                            <!-- In the dev profile, cargo will always wait -->
+                            <wait>true</wait>
+                            <container>
+                                <containerId>${cargo.tomcat.id}</containerId>
+                                <home>${cargo.tomcat.home}</home>
+                                <timeout>360000</timeout>
+                                <systemProperties>
+                                    <jive.instance.home>${basedir}/../target/jiveHome</jive.instance.home>
+                                    <jive.ws.disabled>true</jive.ws.disabled>
+                                    <jive.devMode>true</jive.devMode>
+                                    <themes.directory>${basedir}/../themes/src/main/themes</themes.directory>
+                                    <docverse.enabled>false</docverse.enabled>
+                                    <!-- <pluginDirs>${plugin.dirs}</pluginDirs> if uncommented, must not be empty -->
+                                </systemProperties>
+                                <dependencies>
+                                    <dependency>
+                                        <groupId>postgresql</groupId>
+                                        <artifactId>postgresql</artifactId>
+                                    </dependency>
+                                </dependencies>
+                            </container>
+                            <configuration>
+                                <home>target/${cargo.tomcat.id}</home>
+                                <properties>
+                                    <cargo.jvmargs>
+                                        ${jrebel.agent} -Drebel.generate.show=true
+                                        -noverify -Xdebug -Xnoagent
+                                        -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Xms1024m
+                                        -Xmx2048m -XX:MaxPermSize=512m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+                                    </cargo.jvmargs>
+                                    <cargo.logging>low</cargo.logging>
+                                    <cargo.servlet.uriencoding>UTF-8</cargo.servlet.uriencoding>
+                                </properties>
+                                <deployables>
+                                    <deployable>
+                                        <location>${project.build.directory}/${project.build.finalName}
+                                        </location>
+                                        <pingURL>http://localhost:8080</pingURL>
+                                        <properties>
+                                            <context></context>
+                                        </properties>
+                                    </deployable>
+                                </deployables>
+                            </configuration>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.zeroturnaround</groupId>
+                            <artifactId>jrebel-maven-plugin</artifactId>
+                            <version>1.1.1</version>
+                            <executions>
+                            <execution>
+                                <id>generate-rebel-xml</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <classpath>
+                                <fallback>default</fallback>
+                                <resources>
+                                    <resource>
+                                        <directory>${basedir}/target/classes</directory>
+                                    </resource>
+                                </resources>
+                            </classpath>
+                            <war>
+                                <path>${project.build.directory}/${project.build.finalName}</path>
+                            </war>
+                            <web>
+                              <resources>
+                                <resource>
+                                  <target>/</target>
+                                  <directory>${project.build.directory}/${project.build.finalName}</directory>
+                                </resource>
+                                <resource><!-- Force default configuration to be last in generated config --></resource>
+                              </resources>
+                            </web>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

@@ -1,0 +1,49 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+    <!-- Include actions go here -->
+    <package name="community-custom-include" extends="community-actions-include">
+
+        <!-- default-interceptor-ref copied from struts-community.xml, comment if this is modified -->
+        <default-interceptor-ref name="includeStack"/>
+
+        <!-- global-results copied from struts-community.xml, comment if this is modified -->
+        <!-- Global results - these are implicit in all action definitions and can be overridden -->
+        <global-results>
+            <result name="login" type="httpheader">403</result>
+            <result name="unauthorized" type="httpheader">403</result>
+            <result name="unauthenticated" type="httpheader">403</result>
+            <result name="notfound" type="httpheader">404</result>
+            <result name="redirect" type="redirect">${url}</result>
+            <result name="error" type="httpheader">500</result>
+            <result name="none" type="httpheader">204</result>
+        </global-results>
+
+        <!-- Override include actions here -->
+
+        <!-- Add new application actions here -->
+
+    </package>
+
+    <!-- Core actions go here -->
+    <!-- Interceptors and results should NOT be modified here.  Overlay struts-community.xml instead. -->
+    <package name="community-custom" extends="community-actions">
+
+        <!-- Override application actions here -->
+
+        <!-- Add new application actions here -->
+
+    </package>
+
+    <!-- Admin actions go here -->
+    <!-- Interceptors and results should NOT be modified here.  Overlay struts-community-admin.xml instead. -->
+    <package name="community-admin-custom" extends="community-admin-actions" namespace="/admin">
+
+        <!-- Override core admin actions here -->
+
+        <!-- Add new admin actions here -->
+
+    </package>
+
+</struts>

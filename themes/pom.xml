@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <name>themes</name>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>themes</artifactId>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>org.nlets.jive</groupId>
+        <artifactId>nlets</artifactId>
+        <version>8.0.2-0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>plugin-assembly</id>
+                        <goals><goal>single</goal></goals>
+                        <configuration>
+                            <skipAssembly>true</skipAssembly>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>theme-assembly</id>
+                        <goals><goal>single</goal></goals>
+                        <configuration>
+                            <skipAssembly>false</skipAssembly>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <!-- DO NOT execute the explode-jive-plugin ant tasks -->
+                    <execution>
+                        <id>explode-jive-plugin</id>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

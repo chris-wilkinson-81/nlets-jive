@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <name>nlets</name>
+    <groupId>org.nlets.jive</groupId>
+    <artifactId>nlets</artifactId>
+    <version>8.0.2-0-SNAPSHOT</version>
+    <description>Jive customization project. This is the parent pom</description>
+    <packaging>pom</packaging>
+
+    <parent>
+        <groupId>com.jivesoftware.maven</groupId>
+        <artifactId>jive-parent-pom</artifactId>
+        <version>8.0.2.0-0</version>
+    </parent>
+
+    <modules>
+        <module>web</module>
+        <module>themes</module>
+    </modules>
+
+    <!-- This is necessary if you're using the Maven Release Plugin to release your customization -->
+    <scm>
+        <!-- Uncomment if you want to use SVN -->
+        <!--connection>scm:svn:https://svn.jivesoftware.com/svn/ext/customer/nlets/trunk</connection-->
+        <!--developerConnection>scm:svn:https://svn.jivesoftware.com/svn/ext/customer/nlets/trunk</developerConnection-->
+        <connection>scm:git:ssh://git@source-ps.jivesoftware.com/CUS/nlets.git</connection>
+        <developerConnection>scm:git:ssh://git@source-ps.jivesoftware.com/CUS/nlets.git</developerConnection>
+    </scm>
+    
+    <distributionManagement>
+        <repository>
+            <id>customers</id>
+            <url>http://nexus-int.eng.jiveland.com/content/repositories/customers</url>
+        </repository>
+        <snapshotRepository>
+            <id>customer-snapshots</id>
+            <url>http://nexus-int.eng.jiveland.com/content/repositories/customer-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>com.jivesoftware.maven</groupId>
+                <artifactId>artifact-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <inherited>false</inherited>
+                <executions>
+                    <!-- execute the setup-jive-home ant tasks -->
+                    <execution>
+                        <id>setup-jive-home</id>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </execution>
+
+                    <!-- DO NOT execute the explode-jive-plugin ant tasks -->
+                    <execution>
+                        <id>explode-jive-plugin</id>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
