@@ -1,0 +1,11 @@
+section#j-login-intro {
+	display: none;
+}
+
+p#jive-create-account-formblock {
+	display: none;
+}
+
+div#jive-login-formblock + h3 {
+	display: none;
+}

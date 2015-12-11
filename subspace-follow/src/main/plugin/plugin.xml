@@ -1,0 +1,30 @@
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
+    <name>subspace-follow</name>
+    <description>Provide the option for a user to also follow sub-spaces when following a space</description>
+    <author></author>
+    <version>${project.version}</version>
+    <minServerVersion>${jive.version.min}</minServerVersion>
+    <maxServerVersion>${jive.version.max}</maxServerVersion>
+    
+	<!-- you will want to change your class name here! -->
+    <class>com.wth.nlets.plugin.SubspaceFollowPlugin</class>
+
+	<!-- 
+    <authorURL>
+    <pluginURL>
+    <databaseKey>
+    <databaseVersion>
+    <components>
+    <css>
+    <soy>
+    <javascript>
+    <widget>
+    <macro>
+    <urlmapping>
+    <sitemesh>
+	-->
+	<soy src="/plugins/subspace-follow/resources/templates/soy/subspace-follow.soy"></soy>
+	<css src="/plugins/subspace-follow/resources/styles/styles.css"></css>
+
+</plugin>

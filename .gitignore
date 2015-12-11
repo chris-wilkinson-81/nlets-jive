@@ -14,3 +14,10 @@ run-services/eae-service.log
 run-services/undelivered-logs
 run-services/var
 run-services/serviceconfig/core.*.json
+.metadata
+run-services/serviceconfig/instance_properties.json
+run-services/serviceconfig/node.id
+subspace-follow/target
+subspace-follow/.settings
+subspace-follow/.classpath
+subspace-follow/.project

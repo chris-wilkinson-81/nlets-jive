@@ -1,0 +1,253 @@
+{namespace wth.nlets}
+
+/**
+ * Overlays a link to copy a discussion to a space on CORE
+ *
+ * @param userID
+ * @param containerID
+ * @param containerType
+ * @param streamList
+ */
+{template .subspacefollow}	
+	{call jive.shared.soy.resourceInlineJs}
+        {param code}
+			$j(document).ready(function() {lb}				
+				//console.log("Plugin template definition loaded");
+
+				var userID = {$userID};
+				var containerID = {$containerID};
+				var containerType = {$containerType};
+				var streamList = {buildJson($streamList) |noAutoescape};
+				//console.log("Community " + containerID + ", containerType="+containerType);
+				
+				$j("body").click(function (e) {lb}
+    				$j("div.popover").each(function () {lb}
+        				// hide any open popovers when the anywhere else in the body is clicked
+        				if (!isHomeGlobalNavMenu($j(this)) && 
+        					!$j(this).is(e.target) && 
+        					$j(this).has(e.target).length === 0 && 
+        					$j(".popover").has(e.target).length === 0) {lb}
+            				$j(this).remove();
+        				{rb}
+    				{rb});
+				{rb});
+
+				$j(document).keydown(function(e){lb}
+				   if (e.keyCode === 27)
+				      $j("div.popover").remove();
+				{rb});
+				
+				var btn = $j(
+				"<div class=\"j-js-follow-controls\" data-location=\"content-page\" data-streamsassoc=\"0\" aria-live=\"polite\" aria-atomic=\"true\">" +
+					"<a href=\"#\" class=\"j-place-button font-color-white j-button-follow-subspaces notlast\" id=\"jive-link-community-startFollowing-subspaces\">" +
+						"Follow All <span class=\"jive-icon-glyph icon-pulse j-instreamicon\"></span>" +
+					"</a>"+
+					"<a href=\"#\" class=\"j-place-button font-color-white j-button-following-subspaces notlast \" id=\"jive-link-community-following-subspaces\" style=\"display: none;\">" +
+						"<span class=\"j-js-streams-assoc-count j-instream-count\">Following All " +
+						"<span class=\"jive-icon-glyph icon-pulse j-instreamicon\"></span><span class=\"num-streams\"></span></span>" +
+					"</a>" +
+				"</div>");
+				
+				$j("div#j-place-header-actions").append(btn);
+				manageFollowSubspacesButton(streamList);
+				
+				$j("a.j-button-follow-subspaces, a.j-button-following-subspaces").click(function(){lb}
+					//console.log("follow button clicked");
+					
+					var btn = $j(this);
+					//console.log("loading stream config");
+					
+					var streamID = 2;
+					var endpoint = "followsubspaces";
+					var href;
+					var methodType = "GET";
+					
+					if (btn.hasClass('j-button-follow-subspaces')) {lb}
+						href = "/api/core/v3/streams/[endpoint]/[communityID]/stream/[streamID]"
+							.replace("[endpoint]",endpoint)
+							.replace("[communityID]",containerID)
+							.replace("[streamID]",streamID);
+							methodType = "POST";
+					{rb} else {lb}
+						href = "/api/core/v3/streams/community/" + containerID + "/user/" + userID + "/streamconfig";
+					{rb}
+						
+					//console.log("href = " + href);
+					
+					$j.ajax({lb}
+					    type: methodType,
+					    url: href,
+					    data: {lb}{rb},
+					    success: function(data){lb}
+					    	var streamList = data;
+					    	
+					    	//console.log("request successful!");
+					    	manageFollowSubspacesButton(streamList);
+					  		renderSubspaceFollowPopover($j("a.j-button-following-subspaces"), containerID, containerType,streamList,userID);
+					    	
+					    {rb},
+					    error: function() {lb}
+					    	console.log("error updating stream associations");
+					    {rb},
+					    dataType: "json"
+					{rb});
+					
+					/*$j.ajax({lb}
+					  	type: "GET",
+					  	url: "/api/core/v3/streams/community/" + containerID + "/user/" + userID + "/streamconfig",
+					  	data: {lb}{rb},
+					  	success: function(data){lb}
+					  		//console.log("successfully loaded stream config");
+					  		var streamList = data;
+					  		//console.log("streamList = " + JSON.stringify(streamList));
+					  		manageFollowSubspacesButton(streamList);
+					  		renderSubspaceFollowPopover($j("a.j-button-following-subspaces"), containerID, containerType,streamList,userID);
+					  	{rb},
+					  	error: function(){lb}
+					  		console.log("error loading stream config");
+					  	{rb},
+					  	dataType: "json"
+					{rb});*/
+					
+					
+					
+				{rb});
+				
+			{rb});
+			
+			function isHomeGlobalNavMenu(elem) {lb}
+				return elem.find("div#j-home-global-nav-menu").length > 0 || 
+					elem.find("div#j-place-manage-container").length > 0 || 
+					elem.find("div#j-place-parents-container").length > 0;
+			{rb}
+			
+			function renderSubspaceFollowPopover(btn, containerID, containerType,streamList,userID) {lb}
+				//console.log("Inside renderSubspaceFollowPopover");
+				var popoverHtml = 
+						"<div id=\"follow-in-menu\" class=\"j-follow-in-menu j-menu j-quick-menu j-js-follow-in-streams-menu j-pop-main\" style=\"\" data-objectid=\""+containerID+"\" data-objecttype=\""+containerType+"\">"+
+						"<span class=\"j-508-label a11y-boundary\">Menu begins</span>"+
+							"<h4 class=\"font-color-meta-light\">Follow All</h4>"+
+							"<form>"+
+								"<ul class=\"j-icon-list\">";
+									
+				for(var i = 0; i < streamList.length; i++) {lb}
+					//console.log("stream = " + JSON.stringify(streamList[i]));
+					var following = streamList[i].following;
+					var displayName = streamList[i].displayName;
+					stream = streamList[i].streamConfiguration.stream;
+					var id = "stream_" + stream.id;
+					
+					popoverHtml += 
+						"<li>"+
+						 "<label for=\""+id+"\" class=\"j-js-stream-option font-color-link j-label-option j-connections selected\" title=\"Stop following all in this stream\" data-id=\""+stream.id+"\" data-source=\"connections\">"+
+							"<input type=\"checkbox\" id=\""+id+
+							"\" value=\""+stream.id+
+							"\" "+(following ? "checked=\"checked\"" : "")+
+							"><span class=\"lnk\">"+ 
+							displayName +
+						"</span></label>" +
+						"</li>";
+				{rb}
+
+				popoverHtml +=					
+									"<li><a href=\"#\" class=\"j-js-stream-option j-js-remove-all-assns j-stop-following noIcon\" role=\"button\"><span class\"lnk\">Stop Following All</span></a>"+
+							"<li><a href=\"#\" class=\"j-followmenu-close j-follow-subspaces-menu-close close noIcon lnk\" role=\"button\">Done</a></li>"+
+							"</ul>" +
+							"</form>" +
+							"<span class=\"j-508-label a11y-boundary\">Menu ends</span>"+
+							"</div>" +
+					"<span class=\"belowArrow pointer\" style=\"left: 75px;\"></span>" +
+					"</div>";
+				
+				var popover = $j("<div class=\"j-pop js-pop j-hcard-pop popover\" style=\"position: absolute; top: 0px; left: 0px;\"></div>");
+				popover.html(popoverHtml);
+				popover.css("visibility","visible");
+				popover.css("display", "block");
+				var offset = btn.offset();
+				popover.css("top",(offset.top + btn.height())+ 31 +"px");
+				popover.css("left",(offset.left + 10) + "px");
+
+				//console.log("popoverHtml = " + popoverHtml);
+				$j("body").append(popover).focus();	
+				
+				$j("a.j-follow-subspaces-menu-close").click(function (e) {lb}
+					$j("div.popover").remove();
+				{rb});
+				
+				popover.find("input[type=\"checkbox\"]").change(function(){lb}
+					var streamID = $j(this).attr("value");
+					var endpoint = $j(this).is(":checked") ? 
+						"followsubspaces" : "unfollowsubspaces";
+						
+					var href = "/api/core/v3/streams/[endpoint]/[communityID]/stream/[streamID]"
+						.replace("[endpoint]",endpoint)
+						.replace("[communityID]",containerID)
+						.replace("[streamID]",streamID);
+						
+					//console.log("href = " + href);
+					
+					$j.ajax({lb}
+					    type: "POST",
+					    url: href,
+					    data: {lb}{rb},
+					    success: function(data){lb}
+					    	var streamList = data;
+					    	manageFollowSubspacesButton(streamList);
+					    	//console.log("request successful!");
+					    {rb},
+					    error: function() {lb}
+					    	console.log("error updating stream associations");
+					    {rb},
+					    dataType: "json"
+					{rb});
+					
+				{rb});
+				
+				popover.find("a.j-stop-following").click(function(){lb}
+					var href = "/api/core/v3/streams/unfollowsubspaces/[communityID]/user/[userID]"
+						.replace("[communityID]",containerID)
+						.replace("[userID]",userID);
+						
+					//console.log("href = " + href);
+					
+					$j.ajax({lb}
+					    type: "POST",
+					    url: href,
+					    data: {lb}{rb},
+					    success: function(data){lb}
+					    	var streamList = data;
+					    	manageFollowSubspacesButton(streamList);
+					    	//console.log("request successful!");
+					    	//popover.find("input[type=\"checkbox\"]").removeAttr("checked");
+					    	$j(popover).remove();
+					    {rb},
+					    error: function() {lb}
+					    	console.log("error updating stream associations");
+					    {rb},
+					    dataType: "json"
+					{rb});	
+				{rb});
+			{rb}
+			
+			function manageFollowSubspacesButton(streamList) {lb}
+				var followingCount = 0;
+				for(var i = 0; i < streamList.length; i++) {lb}
+					if(streamList[i].following) followingCount++;
+				{rb}
+				
+				if(followingCount == 0) {lb}
+					$j("a.j-button-follow-subspaces").css("display","block");
+					$j("a.j-button-following-subspaces").css("display","none");
+				{rb} else {lb}
+					$j("a.j-button-follow-subspaces").css("display","none");
+					$j("a.j-button-following-subspaces").css("display","block");
+					
+					$j("a.j-button-following-subspaces span span.num-streams").html(followingCount + " streams");
+				{rb}
+				
+			{rb}
+			
+        {/param}
+    {/call}
+{/template}
+

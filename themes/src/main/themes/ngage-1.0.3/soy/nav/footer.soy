@@ -1,0 +1,52 @@
+{namespace jive.nav autoescape="contextual"}
+
+/**
+ * Renders the footer nav bar for the application.
+ *
+ * @param licenseVersion the version of the product from the license.
+ * @param revision the SVN revision
+ * @param howToBuyLink
+ * @param securityAndScalingLink
+ * @param supportCommunityLink
+ * @param trialActive
+ * @param showHelpLink
+ * @param jiveLogoFooterEnabled
+ */
+{template .footer}
+    {if $jiveLogoFooterEnabled}
+        <div id="j-footer-poweredBy">
+            
+			<p class="font-color-meta" style="font-size: 14px;">A Collaborative Justice Sharing Platform</p>
+            
+        </div>
+    {/if}
+    <div class="j-footer-nav font-color-meta">
+        <a class="" href="{buildUrl('/')}">{i18nText('global.home')}</a>
+        <span class="j-pipe">{sp}|{sp}</span>
+        <a class="" href="#top">{i18nText('dectr.page.top.link')}</a>
+        {if $trialActive}
+            <span class="j-pipe">{sp}|{sp}</span><a class="" href="{$howToBuyLink}">{i18nText('footer.how.to.buy')}</a>
+            <span class="j-pipe">{sp}|{sp}</span>
+            <a class="" href="{$securityAndScalingLink}">
+                {i18nText('footer.security.and.scaling')}
+            </a>
+            <span class="j-pipe">{sp}|{sp}</span><a class="" href="{$supportCommunityLink}">{i18nText('footer.jive.community')}</a>
+        {/if}
+        {if $showHelpLink}
+            <span class="j-pipe">{sp}|{sp}</span><a class="" href="mailto:support@nlets.org">{i18nText('footer.help')}</a>
+        {/if}
+    </div>
+    <div class="j-footer-jiveVersion font-color-meta">
+        {i18nText('dectr.jiveVersion.link', $licenseVersion, $revision)}
+    </div>
+
+    <span id='speakSpan' class='j-508-label' role='marquee' aria-live='assertive' aria-relevant='all'></span>
+{/template}
+
+
+/**
+ * @param html
+ */
+{template .customFooter}
+    <footer id="j-cust-foot" class="clearfix" role="contentinfo">{$html|noAutoescape}</footer>
+{/template}

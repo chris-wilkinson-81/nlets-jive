@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>nlets</name>
-    <groupId>org.nlets.jive</groupId>
+    <groupId>com.wth.nlets</groupId>
     <artifactId>nlets</artifactId>
     <version>8.0.2-0-SNAPSHOT</version>
     <description>Jive customization project. This is the parent pom</description>
@@ -19,7 +17,9 @@
     <modules>
         <module>web</module>
         <module>themes</module>
-    </modules>
+    <module>subspace-follow</module>
+    <module>navbar</module>
+  </modules>
 
     <!-- This is necessary if you're using the Maven Release Plugin to release your customization -->
     <scm>

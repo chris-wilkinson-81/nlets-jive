@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:core="http://www.jivesoftware.com/schema/core"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+         http://www.jivesoftware.com/schema/core
+		http://www.jivesoftware.com/schema/core.xsd"
+       default-autowire="no" default-init-method="init" default-destroy-method="destroy">
+
+    <bean class="com.wth.nlets.plugin.SubspaceFollowPlugin"/>
+    
+    <core:service id="streamServiceV3" v="3" parent="abstractServiceV3"
+                  class="com.wth.nlets.v3.service.StreamService">
+        <property name="activityProvider" ref="activityProviderV3"/>
+        <property name="streamProvider" ref="streamProviderV3"/>
+        <property name="userManager" ref="userManager" />
+        <property name="communityManager" ref="communityManager" />
+        <property name="streamManager" ref="streamManager" />
+        <property name="containerStreamConfigProvider" ref="containerStreamConfigProvider" />
+    </core:service>
+
+	<bean id="containerStreamConfigProvider" class="com.wth.nlets.v3.service.ContainerStreamConfigProvider">
+		<property name="streamManager" ref="streamManager"/>
+	</bean>
+
+	<!-- PluginTemplateDefinition to load subspace follow button via soy template/js -->
+    <bean parent="pluginTemplateDefinitions" class="com.jivesoftware.community.util.spring.MergeableCollection">
+        <property name="source">
+            <util:list>
+                <bean class="com.wth.nlets.template.SubspaceFollowTemplateDefinition">
+                	<property name="communityManager" ref="communityManager"/>
+                	<property name="containerStreamConfigProvider" ref="containerStreamConfigProvider"/>
+                	<property name="authenticationProvider" ref="authenticationProvider"/>
+                </bean>
+            </util:list>
+        </property>
+    </bean>
+
+</beans>
