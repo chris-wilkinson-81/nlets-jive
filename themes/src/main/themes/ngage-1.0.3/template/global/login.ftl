@@ -268,7 +268,7 @@
                         
                     </div>
                     </#if>
-
+                    
                    <!-- NLETS Customization -->
 					<!-- adding a new div (styled in custom-css.ftl) to display an 
                          some text and an image to the right of login form box -->
@@ -306,6 +306,7 @@
 					<!-- Removed Account creation form -->
 					<!-- End NLETS customization -->
 
+                     <#if !(sharedGroupEnabled && samlEnabled)>
                     <#if externalLoginEnabled>
                         <div class="j-login-ext-login <#if (!showRegisterForm || registerOnly)>j-login-ext-login-noreg<#else>j-login-ext-login-plusreg j-rc5 j-rc-none-top</#if>">
                             <h2><@s.text name="sso.external-login.login" /></h2>

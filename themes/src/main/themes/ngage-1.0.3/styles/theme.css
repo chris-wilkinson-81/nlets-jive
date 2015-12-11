@@ -97,6 +97,11 @@
 	height: 105px;
 }
 
+.j-body-place #jive-body .j-page-header { 
+	background-image: none;
+	background-color: #222;	
+}
+
 .j-body-home.j-header-mode-simple .j-layout-sl .j-column-s {
 	top: 105px;
 	height: calc(100% - 225px);
