@@ -269,6 +269,8 @@
                     </div>
                     </#if>
                     
+                  
+
                    <!-- NLETS Customization -->
 					<!-- adding a new div (styled in custom-css.ftl) to display an 
                          some text and an image to the right of login form box -->

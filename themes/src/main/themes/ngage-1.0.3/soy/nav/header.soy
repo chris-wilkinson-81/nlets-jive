@@ -20,6 +20,8 @@
 
 
     <header id="{$mode == 'basic' ? 'j-header' : 'j-compact-header'}" class="clearfix">
+        
+        <div id="j-header-bg">
         {if $showCustomHeader or $customizeSite}
             <!-- Customer generated HTML -->
             <div id="j-cust-head" class="clearfix"{if not $showCustomHeader} style="display: none;"{/if}>{$headerInfo.customHeader|noAutoescape}</div>
@@ -109,6 +111,8 @@
                 {/call}
             </nav>
         {/if}
+        
+        </div>
     </header>
     <noscript>
         <div style="color:red" align="center">

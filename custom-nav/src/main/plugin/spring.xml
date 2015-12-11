@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+       default-autowire="no" default-init-method="init" default-destroy-method="destroy">
+
+    <bean class="com.wth.nlets.CustomNavPlugin"/>
+	
+	<bean id="groupsActionLink" class="com.jivesoftware.community.navbar.NavMenuLink">  
+	     <property name="ID" value="jive-nav-link-groups"/>  
+	     <property name="nameKey" value="nav.bar.groupsAction.link"/> <!-- this is a i18n key -->  
+	     <property name="linkCss" value="j-globalNavLink j-ui-elem"/> 
+	     <property name="url" value="/places?filterID=all~objecttype~objecttype%5Bsocialgroup%5D"/> 
+	</bean>  
+  
+  
+  
+	<bean id="extendedNavBarLinks" class="com.jivesoftware.community.util.spring.MergeableCollection" scope="prototype" parent="navBarLinks">  
+	    <property name="source">  
+	        <util:list value-type="com.jivesoftware.community.web.component.ActionLink" scope="prototype">  
+	            <ref bean="groupsActionLink"/>  
+	        </util:list>  
+	    </property>  
+	</bean>  
+</beans>

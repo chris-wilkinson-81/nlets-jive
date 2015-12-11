@@ -23,7 +23,7 @@
     </parent>
 
     <properties>
-        <plugin.dirs>${basedir}/../subspace-follow/target/subspace-follow</plugin.dirs>
+        <plugin.dirs>${basedir}/../subspace-follow/target/subspace-follow, ${basedir}/../custom-nav/target/custom-nav</plugin.dirs>
     </properties>
 
     <build>

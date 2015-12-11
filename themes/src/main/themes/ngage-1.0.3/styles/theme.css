@@ -50,12 +50,9 @@
 
 /* copbook logo and header */
 
-#j-basic-wrap {
-	max-width: none;
-}
 
 .jive-body-formpage-login #j-header-wrap {
-	background: #000000;
+	background: #333;
 	height: 103px;
 	overflow: hidden;	/* Added by HEDLOC */
 }
@@ -409,7 +406,7 @@ header#j-header h1#logo a.j-header-logo {
 
 header#j-header, #j-compact-header {
 	/**background: #386e9c;		This one changes? **/
-	background-color: #333333;
+	background: inherit;
 	padding: 0;
 	height: 105px;
 }
@@ -419,7 +416,7 @@ h1#jive-global-header-title {
 }
 
 #j-links {
-	margin: -50px 0 0;
+	margin: 0 -15px 0;
 }
 
 #j-satNav-wrap {
@@ -460,9 +457,23 @@ ul#j-satNav-wrap li.feedback {
 	height: 30px;
 }
 
+#j-header #j-header-bg {
+	background-color: #333;
+    height: inherit;
+    position: relative;
+    margin: auto;
+    max-width: 1300px;
+}
+
+#j-header #j-basic-wrap {
+	height: 66px;
+	/*background-color:#333;*/
+}
+
 #j-globalNav-bg {
 	background: transparent;
 	position: static;
+	/*background-color: #333;*/
 }
 
 #j-globalNav a.j-globalNavLink {
@@ -511,6 +522,14 @@ ul#j-satNav-wrap li.feedback {
 	line-height: 19px;
 	font-weight: normal;
 	text-align: center;
+}
+
+#j-nav-search span.nav-link {
+	border: none;
+}
+
+span.j-navbadge-inbox, span.j-navbadge-count {
+	background: #ffbb00 !important;
 }
 
 .j-nav-create .j-globalNavLink span.nav-link {

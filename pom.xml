@@ -19,6 +19,7 @@
         <module>themes</module>
     <module>subspace-follow</module>
     <module>navbar</module>
+    <module>custom-nav</module>
   </modules>
 
     <!-- This is necessary if you're using the Maven Release Plugin to release your customization -->

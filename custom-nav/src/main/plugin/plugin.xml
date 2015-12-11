@@ -1,0 +1,28 @@
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
+    <name>custom-nav</name>
+    <description>custom-nav</description>
+    <author></author>
+    <version>${project.version}</version>
+    <minServerVersion>${jive.version.min}</minServerVersion>
+    <maxServerVersion>${jive.version.max}</maxServerVersion>
+    
+	<!-- you will want to change your class name here! -->
+    <class>com.wth.nlets.CustomNavPlugin</class>
+
+	<!-- 
+    <authorURL>
+    <pluginURL>
+    <databaseKey>
+    <databaseVersion>
+    <components>
+    <css>
+    <soy>
+    <javascript>
+    <widget>
+    <macro>
+    <urlmapping>
+    <sitemesh>
+	-->
+
+</plugin>

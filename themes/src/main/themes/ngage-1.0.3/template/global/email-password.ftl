@@ -90,7 +90,6 @@
 						$j('.jive-body-formpage-emailpassword #j-footer').css('position','absolute');
 						$j('.jive-body-formpage-emailpassword #j-footer #j-footer-poweredBy').css('margin-right','8.5%');
 						}
-					});
                 	//End NLETS customization
                 });
             </script>
