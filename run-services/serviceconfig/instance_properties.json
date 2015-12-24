@@ -5,5 +5,12 @@
     "dialect" : "org.hibernate.dialect.PostgreSQLDialect",
     "driver" : "org.postgresql.Driver",
     "jdbcURL" : "jdbc:postgresql://localhost:5432/nlets-eae8"
+  },
+  "a0f83453-e2f9-4b2c-9c78-248ed620c440" : {
+    "username" : "cwilkinson",
+    "password" : "ENCRYPTED:EAAAAIZmeaclK7f6n0p9we/SBx6tU58B7gtfKmAS8DzBQMSS",
+    "dialect" : "org.hibernate.dialect.PostgreSQLDialect",
+    "driver" : "org.postgresql.Driver",
+    "jdbcURL" : "jdbc:postgresql://localhost:5432/nlets-eae-8"
   }
 }

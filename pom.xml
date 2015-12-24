@@ -18,7 +18,6 @@
         <module>web</module>
         <module>themes</module>
     <module>subspace-follow</module>
-    <module>navbar</module>
     <module>custom-nav</module>
   </modules>
 
