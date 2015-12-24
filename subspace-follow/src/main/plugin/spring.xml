@@ -34,6 +34,7 @@
                 	<property name="communityManager" ref="communityManager"/>
                 	<property name="containerStreamConfigProvider" ref="containerStreamConfigProvider"/>
                 	<property name="authenticationProvider" ref="authenticationProvider"/>
+                	<property name="streamManager" ref="streamManager"/>
                 </bean>
             </util:list>
         </property>

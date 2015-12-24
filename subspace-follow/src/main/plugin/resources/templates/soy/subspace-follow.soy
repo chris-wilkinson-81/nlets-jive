@@ -7,6 +7,7 @@
  * @param containerID
  * @param containerType
  * @param streamList
+ * @param connectionsStream
  */
 {template .subspacefollow}	
 	{call jive.shared.soy.resourceInlineJs}
@@ -39,10 +40,10 @@
 				
 				var btn = $j(
 				"<div class=\"j-js-follow-controls\" data-location=\"content-page\" data-streamsassoc=\"0\" aria-live=\"polite\" aria-atomic=\"true\">" +
-					"<a href=\"#\" class=\"j-place-button font-color-white j-button-follow-subspaces notlast\" id=\"jive-link-community-startFollowing-subspaces\">" +
+					"<a href=\"#\" class=\"j-place-button font-color-white j-button-follow-subspaces notlast\" id=\"jive-link-community-startFollowing-subspaces\" connections-stream-id=\"{$connectionsStream.stream.id}\">" +
 						"Follow All <span class=\"jive-icon-glyph icon-pulse j-instreamicon\"></span>" +
 					"</a>"+
-					"<a href=\"#\" class=\"j-place-button font-color-white j-button-following-subspaces notlast \" id=\"jive-link-community-following-subspaces\" style=\"display: none;\">" +
+					"<a href=\"#\" class=\"j-place-button font-color-white j-button-following-subspaces notlast \" id=\"jive-link-community-following-subspaces\" style=\"display: none;\" connections-stream-id=\"{$connectionsStream.stream.id}\">" +
 						"<span class=\"j-js-streams-assoc-count j-instream-count\">Following All " +
 						"<span class=\"jive-icon-glyph icon-pulse j-instreamicon\"></span><span class=\"num-streams\"></span></span>" +
 					"</a>" +
@@ -57,7 +58,7 @@
 					var btn = $j(this);
 					//console.log("loading stream config");
 					
-					var streamID = 2;
+					var streamID = $j(this).attr("connections-stream-id");
 					var endpoint = "followsubspaces";
 					var href;
 					var methodType = "GET";

@@ -16,6 +16,7 @@ import com.jivesoftware.community.CommunityManager;
 import com.jivesoftware.community.JiveConstants;
 import com.jivesoftware.community.NotFoundException;
 import com.jivesoftware.community.aaa.ImmutableUser;
+import com.jivesoftware.community.eae.streams.StreamManager;
 import com.jivesoftware.community.places.action.PlaceActionSupport;
 import com.jivesoftware.community.places.action.PlaceActivityAction;
 import com.jivesoftware.community.places.action.PlacePeopleAction;
@@ -25,6 +26,8 @@ import com.jivesoftware.community.places.action.PlacePeopleAction;
 import com.jivesoftware.community.places.action.PlacePlacesAction;
 import com.jivesoftware.community.web.soy.plugins.ActionDescriptor;
 import com.jivesoftware.community.web.soy.plugins.PluginTemplateDefinition;
+import com.jivesoftware.eae.constants.StreamConstants.StreamSource;
+import com.jivesoftware.eae.service.client.api.StreamConfiguration;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.wth.nlets.v3.service.ContainerStreamConfigProvider;
@@ -36,6 +39,7 @@ public class SubspaceFollowTemplateDefinition implements PluginTemplateDefinitio
 	private CommunityManager communityManager;
 	private AuthenticationProvider authenticationProvider;
 	private ContainerStreamConfigProvider containerStreamConfigProvider;
+	private StreamManager streamManager;
 	
      /** 
      * The name of the template to in the head of the page. 
@@ -90,6 +94,8 @@ public class SubspaceFollowTemplateDefinition implements PluginTemplateDefinitio
 	        //load the user's streams
 	        List<ContainerStreamConfig> streamList = containerStreamConfigProvider.getContainerStreamConfiguration(user, community);
 	        hashMap.put("streamList", streamList);
+	        
+	        hashMap.put("connectionsStream", getConnectionsStream());
         } catch (NotFoundException e) {
         	log.error(String.format("Unable to load community %d", communityID),e);
         }
@@ -99,6 +105,10 @@ public class SubspaceFollowTemplateDefinition implements PluginTemplateDefinitio
         return hashMap;  
     }
 
+    private StreamConfiguration getConnectionsStream() {
+    	return this.streamManager.getUserStream(this.getUser(), StreamSource.connections);
+    }
+    
     private String getDisplayName(ActionInvocation invocation) {
     	HttpServletRequest request = ServletActionContext.getRequest();
     	//request = (HttpServletRequest) context.get(ServletRequest.HTTP_REQUEST);
@@ -160,6 +170,10 @@ public class SubspaceFollowTemplateDefinition implements PluginTemplateDefinitio
 	public void setContainerStreamConfigProvider(
 			ContainerStreamConfigProvider containerStreamConfigProvider) {
 		this.containerStreamConfigProvider = containerStreamConfigProvider;
+	}
+
+	public void setStreamManager(StreamManager streamManager) {
+		this.streamManager = streamManager;
 	}
 }
 
