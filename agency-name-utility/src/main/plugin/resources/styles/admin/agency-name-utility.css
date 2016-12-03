@@ -1,0 +1,19 @@
+form#agency-name-utility-form input[type="text"] {
+	border: 1px solid #aaa;
+	border-radius: 5px;
+	padding 5px;
+	width: 300px;
+}
+
+form#agency-name-utility-form tr {
+	margin-bottom: 5px;
+}
+
+form#agency-name-utility-form td.label {
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+form#agency-name-utility-form tr.form-submit {
+	margin-top: 20px;
+}

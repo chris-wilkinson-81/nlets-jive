@@ -1,0 +1,16 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="agency-name-utility-actions" extends="community-default">
+    </package>
+    
+    <package name="agency-name-utility-admin-actions" extends="community-admin-default"
+        namespace="/admin">
+
+        <action name="nlets-agency-name-utility" class="com.wth.nlets.action.admin.AgencyNameUtilityAction">
+            <result name="input" type="freemarker">/plugins/agency-name-utility/resources/templates/admin/agency-name-utility.ftl</result>
+            <result name="success" type="redirect">/admin/nlets-agency-name-utility!input.jspa?success=true</result>
+        </action>
+        
+    </package>
+</struts>

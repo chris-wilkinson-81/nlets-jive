@@ -10,13 +10,93 @@
 
     {literal}
     	<style type="text/css">
+    		/*
     		a#navCreate span.j-nav-more.jive-icon-glyph.icon-arrow-down2 {
     			display: none;
-    		}
+    		}*/
     		
     		#j-header #j-header-bg {
     			max-width: none;
     		}
+    		
+    		section.j-box-invites {
+    			display: none;
+    		}
+    		
+    		@media only screen and (max-width: 40em) {
+				header#j-header h1#jive-global-header-title span.j-header-logo a.j-header-company-logo,
+				header#j-header a.j-header-logo,
+				header#j-header h1#logo a.j-header-logo {
+				    background: url('/themes/ngage-1.0.3/images/Left-Banner.png');
+					width: 220px;
+					min-height: 40px;
+					background-size: 280px 40px;
+					
+					margin: 0;
+					background-repeat: no-repeat;
+					margin-bottom: 0px;
+					height: 40px;
+					display: inline-block;
+
+				}
+				
+				#j-header h1#jive-global-header-title a.j-header-logo {
+					display: block;
+				    max-width: 220px;
+				}
+				
+				#j-header h1#logo, #j-header h1#jive-global-header-title, #j-header #j-basic-wrap > a.j-header-logo {
+				    max-width: 220px;
+				}
+				
+				#j-header h1#logo, #j-header h1#jive-global-header-title, #j-header #j-basic-wrap > a.j-header-logo {
+				    padding: 0px;
+				}
+				
+				header#j-header, #j-compact-header {
+					background: inherit;
+					padding: 0;
+					height: 56px;
+				}
+				
+				#j-globalNav a.j-globalNavLink {
+					display: block;
+					padding: 0px;
+					width: 100px;
+				}
+				
+				li#jive-nav-link-my-profile a.j-globalNavLink {
+					width: 100px;
+				}
+				
+				li#jive-nav-link-find-connections a.j-globalNavLink {
+					width: 100px;
+				}
+				
+				.j-globalNav li a span.nav-link {
+					border: none;
+				}
+				
+				.j-globalNav li:hover a span.nav-link {
+					font-weight: normal;
+					padding: 0px 10px;
+				}
+				
+				.j-globalNav li {
+					margin-botton: 0px !important;
+					margin-top: 0px !important;
+					height: 38px;
+				}
+				
+				div#regular-auth-login-block div.nlets-info {
+					display: none !important;
+				}
+				
+				.jive-login-reg-formblock #jive-login-formblock {
+				    border-right: none;
+				    width: auto;
+				}
+			}
     	</style>
     {/literal}
 {/template}

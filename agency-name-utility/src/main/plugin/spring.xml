@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+       default-autowire="no" default-init-method="init" default-destroy-method="destroy">
+
+    <bean class="com.wth.nlets.AgencyNameUtilityPlugin"/>
+
+	<bean id="userServiceImpl" class="com.wth.nlets.community.user.rest.impl.NletsUserServiceImpl"
+          parent="remoteSupport">
+        <property name="profileSearchQueryManager" ref="profileSearchQueryManager"/>
+        <property name="profileSearchQuerySettingsManager" ref="profileSearchQuerySettingsManager"/>
+        <property name="profileSearchSettingsManager" ref="profileSearchSettingsManager"/>
+        <property name="userRelationshipManager" ref="userRelationshipManager"/>
+        <property name="jiveObjectLoader" ref="jiveObjectLoader"/>
+        <property name="entitlementTypeProvider" ref="entitlementTypeProviderImpl"/>
+        <property name="browseManager" ref="browseManager"/>
+        <property name="historyService" ref="historyServiceImpl"/>
+        <property name="browseFilterManager" ref="browseFilterManagerImpl"/>
+        <property name="browseTokenUtil" ref="browseTokenUtil"/>
+        <property name="userItemBeanProps" ref="userServiceUserBeanProps"/>
+        <property name="orgChartUserProps" ref="userServiceOrgChartUserProps"/>
+        <property name="orgChartNodeProps" ref="userServiceOrgChartNodeProps"/>
+        <property name="emailValidationHelper" ref="emailValidationHelper"/>
+        <property name="invitedUserProvider" ref="invitedUserProvider"/>
+        <property name="searchUserFilters" ref="searchUserFilters"/>
+        <property name="registrationManager" ref="registrationManager"/>
+        <property name="jiveObjectIsVisibleToPartnerProvider" ref="jiveObjectIsVisibleToPartnerProviderImpl"/>
+        <property name="groupManager" ref="groupManagerImpl"/>
+    </bean>
+    
+</beans>

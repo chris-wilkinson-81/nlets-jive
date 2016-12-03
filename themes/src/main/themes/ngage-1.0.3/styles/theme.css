@@ -375,14 +375,6 @@ a.do-not-display {
 
 /* HEDLOC CSS START */
 
-#jive-nav-link-work,
-#jive-nav-link-conx,
-#jive-nav-link-apps,
-#jive-nav-link-places,
-.j-nav-create.j-nav-apps,
-li.j-nav-create {
-	display: none;
-}
 
 #jive-nav-link-activity a, #jive-nav-link-activity a span.nav-link {
 	height: 34px;
@@ -503,9 +495,10 @@ ul#j-satNav-wrap li.feedback {
 	line-height: 18px;
 }
 
+/*
 #navCreate .j-create-icon {
 	display: none;
-}
+}*/
 
 #j-globalNav .j-ui-elem.j-nav-more {
 	display: none;
@@ -533,22 +526,14 @@ span.j-navbadge-inbox, span.j-navbadge-count {
 	background: #ffbb00 !important;
 }
 
-.j-nav-create .j-globalNavLink span.nav-link {
-	height: auto;
-	padding: 0 10px;
-}
-
-.j-nav-create .j-globalNavLink span.nav-link .j-navLabel {
-	padding: 0;
-}
-
 #appsQuickLaunchLink {
 	background: none;
 }
 
+/*
 #navCreate {
 	background: none;
-}
+}*/
 
 .j-globalNav > li.active {
 	background: none;
@@ -718,3 +703,15 @@ div.j-aq-data.compliance-notice.warning.clearfix h2 {
 }
 
 /* HEDLOC CSS END */
+
+li#jive-nav-link-my-profile a.j-globalNavLink {
+	width: 100px;
+}
+
+li#jive-nav-link-find-connections a.j-globalNavLink {
+	width: 140px;
+}
+
+div.j-act-filter-controls {
+	display: none;
+}

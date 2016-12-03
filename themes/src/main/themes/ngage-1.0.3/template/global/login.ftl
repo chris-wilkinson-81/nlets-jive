@@ -197,9 +197,16 @@
                         </#if>
 
                         <form action="${loginURI}" id="loginform" method="post" class="j-form" name="loginform01" autocomplete="off">
-                            <#if (successURL??)>
-                            <input type="hidden" name="successURL" value="${successURL?html}" id="success_url"/>
+                        	<#if (successURL??)>
+	                        	<#if (successURL == "/index.jspa")>
+	                        		<input type="hidden" name="successURL" value="/community/nlets-home-page" id="success_url"/>
+	                        	<#else>
+	                            	<input type="hidden" name="successURL" value="${successURL?html}" id="success_url"/>
+	                            </#if>
+                            <#else>
+                            	<input type="hidden" name="successURL" value="/community/nlets-home-page" id="success_url"/>
                             </#if>
+
                             <#if (cancelURL??)>
                             <input type="hidden" name="cancelURL" value="${cancelURL?html}"/>
                             </#if>
@@ -274,26 +281,26 @@
                    <!-- NLETS Customization -->
 					<!-- adding a new div (styled in custom-css.ftl) to display an 
                          some text and an image to the right of login form box -->
-                    <div id="center" style="display: inline-block;">
+                    <div id="center" class="nlets-info" style="display: inline-block;">
                         
                         <div id="center-welcome-text">
-                            <h1 id="copbook-welcome">Welcome to N-gage</h1>
+                            <h1 id="copbook-welcome">Welcome to N-GAGE</h1>
                         </div>
                         
                         <div id="center-copbook-text">
                             
                             <span style="color: #000000; font-size: 1.0em;">
-                                N-gage is a secure, invitation-only collaboration tool for law enforcement organizations throughout the US and Canada.  Access is restricted to those agencies approved by Nlets.  Each Ngage user manages access to the information they share, along with their sponsoring organization.&nbsp;&nbsp;
+                                N-GAGE is a secure, invitation-only collaboration tool for law enforcement organizations throughout the US and Canada.  Access is restricted to those agencies approved by Nlets.  Each N-GAGE user manages access to the information they share, along with their sponsoring organization.&nbsp;&nbsp;
                                 <!--
                                 <br />
                                 <br />CopBook provides users in the field and at headquarters access to mission critical information in a timely manner, enabling distributed real-time information sharing.
                                 -->
                                 <br />
                                 <br />
-                                N-gage is accessible using any smartphone, tablet, or desktop computing device, using a familiar interface, reducing the overhead associated with training and adoption.
+                                N-GAGE is accessible using any smartphone, tablet, or desktop computing device, using a familiar interface, reducing the overhead associated with training and adoption.
                                 <br />
                                 <br />
-                                N-gage is used to improve coordination within law enforcement organizations, as well as across agencies - connecting users spanning geographies and disciplines.
+                                N-GAGE is used to improve coordination within law enforcement organizations, as well as across agencies - connecting users spanning geographies and disciplines.
                                 <br />
                                 <br />
                                 For more information please contact <a href="mailto:support@nlets.org">support@nlets.org</a>

@@ -1,0 +1,40 @@
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
+    <name>agency-name-utility</name>
+    <description>agency-name-utility</description>
+    <author></author>
+    <version>${project.version}</version>
+    <minServerVersion>${jive.version.min}</minServerVersion>
+    <maxServerVersion>${jive.version.max}</maxServerVersion>
+    
+	<!-- you will want to change your class name here! -->
+    <class>com.wth.nlets.AgencyNameUtilityPlugin</class>
+
+	<!-- 
+    <authorURL>
+    <pluginURL>
+    <databaseKey>
+    <databaseVersion>
+    <components>
+    <css>
+    <soy>
+    <javascript>
+    <widget>
+    <macro>
+    <urlmapping>
+    <sitemesh>
+	-->
+
+    <components>
+        <component id="admin-console">
+            <tab id="system" name="admin.decorator.menu.system" description="admin.decorator.menu.system.description" role="Manage System, Manage Community, Manage Users">
+                <section id="section-global-settings" name="admin.decorator.menu.system.settings" description="admin.decorator.menu.system.settings.description">
+                    <item id="nlets-agency-name-utility" name="admin.decorator.menu.system.nlets.agency.name.utility"
+                          url="nlets-agency-name-utility!input.jspa"
+                          description="admin.decorator.menu.system.nlets.agency.name.utility.description"/>  
+                </section>
+            </tab>
+        </component>
+    </components>
+
+</plugin>

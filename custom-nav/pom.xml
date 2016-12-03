@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.wth.nlets</groupId>
         <artifactId>nlets</artifactId>
-        <version>8.0.2-0-SNAPSHOT</version>
+        <version>8.0.4-0-SNAPSHOT</version>
     </parent>
     <build>
         <outputDirectory>${project.build.directory}/classes</outputDirectory>

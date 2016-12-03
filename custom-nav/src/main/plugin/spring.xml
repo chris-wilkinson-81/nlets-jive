@@ -8,6 +8,29 @@
        default-autowire="no" default-init-method="init" default-destroy-method="destroy">
 
     <bean class="com.wth.nlets.CustomNavPlugin"/>
+
+	<bean id="homeActionLink" class="com.jivesoftware.community.navbar.NavMenuLink">  
+	     <property name="ID" value="jive-nav-link-home"/>  
+	     <property name="nameKey" value="nav.bar.homeAction.link"/> <!-- this is a i18n key -->  
+	     <property name="linkCss" value="j-globalNavLink j-ui-elem"/> 
+	     <property name="url" value="/community/nlets-home-page"/> 
+	</bean> 
+	
+	<bean id="myProfileActionLink" class="com.wth.nlets.navbar.MyProfileMenuLink">  
+	     <property name="ID" value="jive-nav-link-my-profile"/>  
+	     <property name="nameKey" value="nav.bar.myProfileAction.link"/> <!-- this is a i18n key -->  
+	     <property name="linkCss" value="j-globalNavLink j-ui-elem"/> 
+	     
+	     <property name="authenticationProvider" ref="authenticationProvider" />
+	     <property name="globalResourceResolver" ref="globalResourceResolver" />
+	</bean> 
+	
+    <bean id="findConnectionsActionLink" class="com.jivesoftware.community.navbar.NavMenuLink">  
+	     <property name="ID" value="jive-nav-link-find-connections"/>  
+	     <property name="nameKey" value="nav.bar.findConnectionsAction.link"/> <!-- this is a i18n key -->  
+	     <property name="linkCss" value="j-globalNavLink j-ui-elem"/> 
+	     <property name="url" value="/people?sortKey=all~dateJoinedDesc&amp;sortOrder=0"/> 
+	</bean>  
 	
 	<bean id="groupsActionLink" class="com.jivesoftware.community.navbar.NavMenuLink">  
 	     <property name="ID" value="jive-nav-link-groups"/>  
@@ -15,14 +38,16 @@
 	     <property name="linkCss" value="j-globalNavLink j-ui-elem"/> 
 	     <property name="url" value="/places?filterID=all~objecttype~objecttype%5Bsocialgroup%5D"/> 
 	</bean>  
-  
-  
-  
-	<bean id="extendedNavBarLinks" class="com.jivesoftware.community.util.spring.MergeableCollection" scope="prototype" parent="navBarLinks">  
-	    <property name="source">  
-	        <util:list value-type="com.jivesoftware.community.web.component.ActionLink" scope="prototype">  
-	            <ref bean="groupsActionLink"/>  
-	        </util:list>  
-	    </property>  
-	</bean>  
+
+	<bean id="navBarLinks" class="com.jivesoftware.community.util.spring.MergeableCollection" scope="prototype">
+        <property name="source">
+            <util:list value-type="com.jivesoftware.community.web.component.ActionLink" scope="prototype">
+	            <ref bean="homeActionLink"/>
+	            <ref bean="myProfileActionLink"/>
+	            <ref bean="findConnectionsActionLink"/>
+	            <ref bean="groupsActionLink"/>
+            </util:list>
+        </property>
+    </bean>
+	 
 </beans>
