@@ -25,6 +25,8 @@
     <sitemesh>
 	-->
 
+	<javascript src="/plugins/agency-name-utility/resources/script/agency-name-sort.js" />
+
     <components>
         <component id="admin-console">
             <tab id="system" name="admin.decorator.menu.system" description="admin.decorator.menu.system.description" role="Manage System, Manage Community, Manage Users">

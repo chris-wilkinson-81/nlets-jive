@@ -1,5 +1,7 @@
 package com.wth.nlets.action.admin;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -174,13 +176,12 @@ public class AgencyNameUtilityAction extends AdminActionSupport {
 	}
 	
 	private void assertIsSingleListField(ProfileField departmentField) {
-		if(departmentField.getType() != ProfileField.Type.MULTILIST) {
-			departmentField.setTypeID(ProfileField.Type.MULTILIST.getID());
+		if(departmentField.getType() != ProfileField.Type.SINGLELIST) {
+			departmentField.setTypeID(ProfileField.Type.SINGLELIST.getID());
 			this.profileFieldManager.editProfileField(departmentField);
 		}
 		
 		List<ProfileFieldOption> pfos = Lists.newArrayList();
-		int fieldIdx = 0;
 		for(String key : DEFAULT_AGENCIES.keySet()) {
 			String deptartments = DEFAULT_AGENCIES.get(key);
 			for(String dept: deptartments.split(",")) {
@@ -188,10 +189,23 @@ public class AgencyNameUtilityAction extends AdminActionSupport {
 				pfo.setFieldID(departmentField.getID());
 				pfo.setValue(dept.trim());
 				pfo.setDefaultOption(false);
-				pfo.setIndex(fieldIdx++);
 				pfos.add(pfo);
 			}
 			
+		}
+		
+		Collections.sort(pfos, new Comparator<ProfileFieldOption>(){
+
+			@Override
+			public int compare(ProfileFieldOption o1, ProfileFieldOption o2) {
+				return o1.getValue().compareTo(o2.getValue());
+			}
+			
+		});
+		
+		int fieldIdx = 0;
+		for(ProfileFieldOption pfo: pfos) {
+			pfo.setIndex(fieldIdx++);
 		}
 		
 		departmentField.setOptions(pfos);
@@ -208,10 +222,14 @@ public class AgencyNameUtilityAction extends AdminActionSupport {
 	}
 	
 	private void saveProfileField(User user, Map<Long,ProfileFieldValue> profile, ProfileField field, String values) {
+
+		String[] valuesArray = values.split(",");
+		String value = "";
 		
-		List<String> departments = Lists.newArrayList();
-		for(String value : values.split(",")) {
-			departments.add(value.trim());
+		if(valuesArray.length == 1) {
+			value = valuesArray[0];
+		} else {
+			return;
 		}
 		
 		ProfileFieldValue pfv = null;
@@ -223,7 +241,7 @@ public class AgencyNameUtilityAction extends AdminActionSupport {
     		pfv.setTypeID(ProfileField.Type.TEXT.getID());
 		}
 		
-		pfv.setValues(departments);
+		pfv.setValue(value);
 		profile.put(field.getID(), pfv);
 
         profileManager.setProfile(user, profile.values(), Maps.newHashMap());
